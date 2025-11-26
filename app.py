@@ -6,7 +6,7 @@ from AlgoritmiaLexer import AlgoritmiaLexer
 from AlgoritmiaParser import AlgoritmiaParser
 from AlgVisitor import Visitor, AlgoritmiaException
 
-st.title("🎵 Intérprete Musical Algoritmia")
+st.title("Intérprete Musical Algoritmia")
 
 # Subir archivo
 uploaded_file = st.file_uploader("Sube tu archivo .alg o .txt", type=['alg', 'txt'])
@@ -17,7 +17,7 @@ if uploaded_file is not None:
     st.code(code, language='text')
 
     # Botón ejecutar
-    if st.button("▶️ Ejecutar"):
+    if st.button("Ejecutar"):
         # Crear archivo temporal
         with tempfile.NamedTemporaryFile(mode='w', suffix='.alg', delete=False) as tmp:
             tmp.write(code)
@@ -55,8 +55,8 @@ if uploaded_file is not None:
                     st.info("No se generó música")
 
         except AlgoritmiaException as e:
-            st.error(f"❌ {e.message}")
+            st.error(f" {e.message}")
         except Exception as e:
-            st.error(f"❌ Error: {e}")
+            st.error(f" Error: {e}")
         finally:
             os.remove(tmp_path)
