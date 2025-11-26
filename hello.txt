@@ -1,0 +1,5 @@
+Main |:
+    <w> "Hola xd"
+    <:> { C D E }
+:|
+

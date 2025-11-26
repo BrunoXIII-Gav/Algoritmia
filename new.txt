@@ -1,0 +1,5 @@
+Main |:
+    <w> "Escala de Do mayor:"
+    <:> { C D E F G A B C }
+    look
+:|

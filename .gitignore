@@ -1,0 +1,33 @@
+.venv/
+venv/
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Intérpretes y tablas generadas
+*.interp
+*.tokens
+
+# autogenerado
+AlgoritmiaParser.py
+AlgoritmiaLexer.py
+AlgoritmiaListener.py
+AlgoritmiaVisitor.py
+AlgVisitor.py
+
+# Carpeta de generación ANTLR
+gen/
+
+*.swp
+*.swo
+*.tmp
+*.log
+
+# arqchivos que se generan
+*.pdf
+*.mp3
+*.wav
+*.midi
+*.ly
