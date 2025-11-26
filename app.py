@@ -32,18 +32,18 @@ if uploaded_file is not None:
             tree = parser.root()
 
             if parser.getNumberOfSyntaxErrors() > 0:
-                st.error("❌ Error de sintaxis")
+                st.error("Error de sintaxis")
             else:
                 visitor = Visitor()
                 visitor.visit(tree)
 
-                st.success("✅ Ejecución completada")
+                st.success("Ejecución completada")
 
                 # Si se generó el MP3, ofrecer descarga
                 if os.path.exists('music.mp3'):
                     with open('music.mp3', 'rb') as f:
                         st.download_button(
-                            label="⬇️ Descargar music.mp3",
+                            label="Descargar music.mp3",
                             data=f,
                             file_name="music.mp3",
                             mime="audio/mp3"
@@ -52,7 +52,7 @@ if uploaded_file is not None:
                     # Reproducir en la app
                     st.audio('music.mp3')
                 else:
-                    st.info("ℹ️ No se generó música")
+                    st.info("No se generó música")
 
         except AlgoritmiaException as e:
             st.error(f"❌ {e.message}")
