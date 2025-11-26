@@ -40,3 +40,7 @@ python3 algoritmia.py new.txt
 ```console
 streamlit run app.py
 ```
+
+Vista del Streamlit
+
+![img.png](img.png)
