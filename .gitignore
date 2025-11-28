@@ -15,7 +15,6 @@ AlgoritmiaParser.py
 AlgoritmiaLexer.py
 AlgoritmiaListener.py
 AlgoritmiaVisitor.py
-VisitorAlgoritmia.py
 
 # Carpeta de generación ANTLR
 gen/
