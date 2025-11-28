@@ -2,7 +2,7 @@ import sys
 from antlr4 import *
 from AlgoritmiaLexer import AlgoritmiaLexer
 from AlgoritmiaParser import AlgoritmiaParser
-from AlgVisitor import Visitor
+from VisitorAlgoritmia import Visitor
 
 if len(sys.argv) > 1:
     input_stream = FileStream(sys.argv[1],encoding = 'utf-8')

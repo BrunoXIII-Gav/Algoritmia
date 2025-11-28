@@ -5,7 +5,7 @@ import sys
 from antlr4 import *
 from AlgoritmiaLexer import AlgoritmiaLexer
 from AlgoritmiaParser import AlgoritmiaParser
-from AlgVisitor import Visitor, AlgoritmiaException
+from VisitorAlgoritmia import Visitor, AlgoritmiaException
 
 
 def main():
