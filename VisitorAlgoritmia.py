@@ -1,17 +1,8 @@
 # VisitorAlgoritmia.py
-import operator
+
 import os
 from collections import defaultdict
-ops = {'+': operator.add, '-': operator.sub, '*': operator.mul,
-       '/': operator.truediv, '^': operator.pow}
-
-if __name__ is not None and "." in __name__:
-    from .AlgoritmiaParser import AlgoritmiaParser
-    from .AlgoritmiaVisitor import AlgoritmiaVisitor
-else:
-    from AlgoritmiaParser import AlgoritmiaParser
-    from AlgoritmiaVisitor import AlgoritmiaVisitor
-
+from AlgoritmiaVisitor import AlgoritmiaVisitor
 
 class AlgoritmiaException(Exception):
         def __init__(self, message):
@@ -81,7 +72,7 @@ class Visitor(AlgoritmiaVisitor):
             notes_partituraMajuscules = ' '.join(map(str, self.parti))
             notes = notes_partituraMajuscules.lower()
         
-        # Contenido Lilypond
+            # Contenido Lilypond
             lilypond_content = "\\version \"2.22.1\"\n" \
                             "\\score {\n" \
                             "\t \\absolute {\n" \
@@ -101,7 +92,7 @@ class Visitor(AlgoritmiaVisitor):
             os.system('timidity -Ow -o music.wav music.midi')
 
             # Pasar de wav a pm3 con ffmpeg
-            os.system('ffmpeg -i music.wav -codec:a libmp3lame -qscale:a 2 music.mp3')
+            os.system('ffmpeg -y -i music.wav -codec:a libmp3lame -qscale:a 2 music.mp3')
      
     
     def visitGte(self, ctx):
@@ -150,9 +141,15 @@ class Visitor(AlgoritmiaVisitor):
         self.stack[-1][variable_name] = int(input(f"Introduce la variable {variable_name}: "))    
     
     def visitEq(self, ctx):
-        left_value = self.get_value_or_note_value(ctx.getChild(0))
-        right_value = self.get_value_or_note_value(ctx.getChild(1))
-        return int(left_value == right_value)    
+        left_child = self.visit(ctx.getChild(0))
+        right_child = self.visit(ctx.getChild(2))
+
+        if isinstance(left_child, str):
+            left_child = self.notes[left_child]
+        if isinstance(right_child, str):
+            right_child = self.notes[right_child]
+
+        return int(left_child == right_child)
     
     def visitReprod(self, ctx):
         notes = self.visit(ctx.getChild(1))
@@ -256,6 +253,7 @@ class Visitor(AlgoritmiaVisitor):
         for key, value in self.notes.items():
             if val == value:
                 return key
+        return None
 
     def visitPlus(self, ctx):
         left_child = self.visit(ctx.getChild(0))
@@ -309,10 +307,10 @@ class Visitor(AlgoritmiaVisitor):
             val2 = self.notes[nota2]
             return int(val1 > val2)
         else:
-            if (not self.adins):
+            if not self.adins:
                 return int(self.visit(l[0]) > self.visit(l[2]))
             else:
-                return
+                return None
             
         self.adins = False
     
@@ -352,7 +350,7 @@ class Visitor(AlgoritmiaVisitor):
     
     def visitMin(self,ctx):
         l = list(ctx.getChildren())
-        if (ctx.getChild(0).getText() in self.notes.keys()):
+        if ctx.getChild(0).getText() in self.notes.keys():
             nota = ctx.expr(0).getText()
             val1 = self.notes[nota]
             result = val1 - self.visit(l[2])
@@ -360,7 +358,8 @@ class Visitor(AlgoritmiaVisitor):
                 if result == value:
                     nova_nota = key
                     return nova_nota
-        elif (ctx.getChild(2).getText() in self.notes.keys()):
+            return None
+        elif ctx.getChild(2).getText() in self.notes.keys():
             nota = ctx.expr(1).getText()
             val1 = self.notes[nota]
             result = val1 - self.visit(l[0])
@@ -368,7 +367,8 @@ class Visitor(AlgoritmiaVisitor):
                 if result == value:
                     nova_nota = key
                     return nova_nota
-        elif (self.stack[-1][ctx.expr(0).getText()] in self.notes.keys()):
+            return None
+        elif self.stack[-1][ctx.expr(0).getText()] in self.notes.keys():
             nota = self.stack[-1][ctx.expr(0).getText()]
             val1 = self.notes[nota]
             result = val1 - self.visit(l[2])
@@ -376,7 +376,8 @@ class Visitor(AlgoritmiaVisitor):
                 if result == value:
                     nova_nota = key
                     return nova_nota
-        elif (self.stack[-1][ctx.expr(1).getText()] in self.notes.keys()):
+            return None
+        elif self.stack[-1][ctx.expr(1).getText()] in self.notes.keys():
             nota = self.stack[-1][ctx.expr(1).getText()]
             val1 = self.notes[nota]
             result = val1 - self.visit(l[0])
@@ -384,6 +385,7 @@ class Visitor(AlgoritmiaVisitor):
                 if result == value:
                     nova_nota = key
                     return nova_nota
+            return None
 
         else:
             return self.visit(l[0]) - self.visit(l[2]) 
@@ -402,14 +404,14 @@ class Visitor(AlgoritmiaVisitor):
             nota2 = self.stack[-1][ctx.expr(0).getText()]
             val2 = self.notes[nota2]
             return int(val1 != val2)
-        if (a):
+        if a:
             self.adins = True
             nota1 = self.stack[-1][ctx.expr(0).getText()]
             val1 = self.notes[nota1]
             nota2 = ctx.expr(1).getText()
             val2 = self.notes[nota2]
             return int(val1 != val2)
-        if (b):
+        if b:
             self.adins = True
             nota1 = ctx.expr(0).getText()
             val1 = self.notes[nota1]
@@ -418,10 +420,10 @@ class Visitor(AlgoritmiaVisitor):
             return int(val1 != val2)
         # enter == enter
         else:
-            if (not self.adins):
+            if not self.adins:
                 return int(self.visit(l[0]) != self.visit(l[2]))
             else:
-                return
+                return None
             
         self.adins = False
     
