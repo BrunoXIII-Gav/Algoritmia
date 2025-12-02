@@ -8,13 +8,6 @@ class AlgoritmiaException(Exception):
         def __init__(self, message):
             self.message = 'Error: ' + message
 
-
-class Proceso:
-    def __init__(self, name, params, inss):
-        self.name = name
-        self.params = params
-        self.inss = inss
-
 class Visitor(AlgoritmiaVisitor):
     
     def __init__(self, entryProc='Main', entryParams=None):
@@ -35,13 +28,13 @@ class Visitor(AlgoritmiaVisitor):
             "A4", "B4", "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6", "D6", "E6", "F6", "G6",
             "A6", "B6", "C7", "D7", "E7", "F7", "G7", "A7", "B7", "C8"
         ]
+
         self.notes = {note: index for index, note in enumerate(all_notes)}
         self.adins= False
-
-        
         
     def __proc__(self, name, paramsValues):
-        expected_params = self.procs[name].params
+        proc = self.procs[name]
+        expected_params = proc['params']
         given_param_count = len(paramsValues)
 
         if len(expected_params) != given_param_count:
@@ -54,7 +47,7 @@ class Visitor(AlgoritmiaVisitor):
             new_scope[param] = value
 
         self.stack.append(new_scope)
-        self.visit(self.procs[name].inss)
+        self.visit(proc['inss'])
 
         self.stack.pop()
         
@@ -276,7 +269,7 @@ class Visitor(AlgoritmiaVisitor):
             raise AlgoritmiaException('Proc \"' + name + '\" ya definido.')
         
         else:
-            self.procs[name] = Proceso(name,parametros,ctx.inss())
+            self.procs[name] = {'params': parametros, 'inss': ctx.inss()}
     
     
     def visitGt(self,ctx):
