@@ -113,12 +113,12 @@ class Visitor(AlgoritmiaVisitor):
     
     def visitWrite(self, ctx):
         output_elements = []
-        children = list(ctx.getChildren())[1:]  # Skip the 'write' keyword
+        children = list(ctx.getChildren())[1:]
 
         for child in children:
             result = self.visit(child)
             if isinstance(result, list):
-                # Convert list elements to strings and join them with spaces
+                # Convierte lista de elementos a strings y los une con espacios
                 output_elements.append(' '.join(map(str, result)))
             else:
                 output_elements.append(str(result))
@@ -304,8 +304,6 @@ class Visitor(AlgoritmiaVisitor):
                 return int(self.visit(l[0]) > self.visit(l[2]))
             else:
                 return None
-            
-        self.adins = False
     
     def visitLt(self, ctx):
         left_child = self.stack[-1].get(ctx.getChild(0).getText(), self.visit(ctx.getChild(0)))
@@ -411,13 +409,8 @@ class Visitor(AlgoritmiaVisitor):
             nota2 = self.stack[-1][ctx.expr(1).getText()]
             val2 = self.notes[nota2]
             return int(val1 != val2)
-        # enter == enter
         else:
             if not self.adins:
                 return int(self.visit(l[0]) != self.visit(l[2]))
             else:
                 return None
-            
-        self.adins = False
-    
-
