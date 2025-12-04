@@ -1,5 +1,4 @@
 Main |:
-    <w> "Hola xd"
+    <w> "Hola"
     <:> { C D E }
 :|
-
