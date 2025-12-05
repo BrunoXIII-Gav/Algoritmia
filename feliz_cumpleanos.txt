@@ -1,0 +1,21 @@
+### Feliz Cumpleaños ###
+### Happy Birthday ###
+
+Main |:
+    <w> "Feliz Cumpleanos!"
+    
+    ### Feliz cumpleanos a ti ###
+    <:> {C4 C4 D4 C4 F4 E4}
+    
+    ### Feliz cumpleanos a ti ###
+    <:> {C4 C4 D4 C4 G4 F4}
+    
+    ### Feliz cumpleanos querido/a ###
+    <:> {C4 C4 C5 A4 F4 E4 D4}
+    
+    ### Feliz cumpleanos a ti ###
+    <:> {B4 B4 A4 F4 G4 F4}
+    
+    <w> "Que los cumplas feliz!"
+    look
+:|
